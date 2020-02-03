@@ -8,27 +8,34 @@
 
 class Worker:
 
-    name = ''
-    surname = ''
-    position = ''
-    __income = {"wage": 0, "bonus": 0}
+    # name = ''
+    # surname = ''
+    # position = ''
+    # __income = {"wage": 0, "bonus": 0}
 
     def __init__(self):
-        self.name = input('Введите имя')
-        self.surname = input('Введите фамилию')
-        self.position = input('Ведите должность')
-        self.__income.update({"wage": 123})
-        print(self.__income)
+        try:
+            self.name = input('Введите имя: ')
+            self.surname = input('Введите фамилию: ')
+            self.position = input('Ведите должность: ')
+            self.__income = {"wage": 0, "bonus": 0}
+            self.wage = int(input('Введите оклад (числом): '))
+            self.bonus = int(input('Введите размер премии (числом): '))
+            self.__income.update({"wage": self.wage, "bonus": self.bonus})
+        except ValueError:
+            print('\nРазрешен ввод только числами!')
 
 
 class Position(Worker):
 
     def get_full_name(self):
-        pass
+        return f'\nСотрудник: {self.name} {self.surname}, {self.position}.'
 
     def get_total_income(self):
-        pass
+        return f'Доход сотрудника, с учетом премии = ' \
+               f'{self._Worker__income.get("wage")+self._Worker__income.get("bonus")}.'
 
 
-first = Position()
-first.get_full_name()
+second = Position()
+print(second.get_full_name())
+print(second.get_total_income())
