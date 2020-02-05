@@ -7,40 +7,59 @@
 # Реализовать общий подсчет расхода ткани. Проверить на практике полученные на этом уроке знания:
 # реализовать абстрактные классы для основных классов проекта, проверить на практике работу декоратора @property.
 
+from abc import ABC, abstractmethod
 
-class Clothes:
+
+class MyAbstractClass(ABC):
+
+    @abstractmethod
+    def consumption(self):
+        pass
+
+
+class Clothes(MyAbstractClass):
     title = "Одежда"
     value = None
+    result = 0
 
-    def total_consumption(self):
-        pass
+    # не понятно как здесь сослаться на обьекты (экземпляры классов) и сложить их значения (впихнуть сюда строку №63)
+    @property
+    def consumption(self):
+        return None
 
 
 class Coat(Clothes):
 
-    def __init__(self, V):
+    def __init__(self, v):
         self.title = "Пальто"
-        self.value = V
+        self.value = v
 
     @property
     def consumption(self):
-        return f'Расход ткани для "{self.title}" - {self.value} размера = {self.value / 6.5 + 0.5}'
+        self.result = round(self.value / 6.5 + 0.5, 2)
+        return f'Расход ткани для "{self.title}" - {self.value} размера = {round(self.value / 6.5 + 0.5, 2)}'
 
 
 class Costume(Clothes):
 
-    def __init__(self, H):
+    def __init__(self, h):
         self.title = "Костюм"
-        self.value = H
+        self.value = h
 
     @property
     def consumption(self):
-        return f'Расход ткани для "{self.title}" - на рост {self.value} = {2*self.value + 0.3}'
+        self.result = round(2*self.value + 0.3, 2)
+        return f'Расход ткани для "{self.title}" - на рост {self.value} = {round(2*self.value + 0.3, 2)}'
 
 
-my_1 = Coat(35)
-print(my_1.consumption)
-my_2 = Costume(180)
+my_1 = Clothes
+
+my_2 = Coat(35)
 print(my_2.consumption)
 
-print(f'\n{Coat.title}, {Coat.value}')
+my_3 = Costume(183)
+print(my_3.consumption)
+
+print(f'Общий расход ткани = {my_2.result + my_3.result}')
+
+# print(f'\n{Coat.title}, {Coat.value}')
