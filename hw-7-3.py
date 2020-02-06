@@ -31,12 +31,34 @@ class Cell:
     def __add__(self, other):
         return Cell(self.value + other.value)
 
+    def __sub__(self, other):
+        if self.value - other.value > 0:
+            return Cell(self.value - other.value)
+        elif other.value - self.value > 0:         # перемена мест значений, чтобы исключить отрицательные значения
+            return Cell(other.value - self.value)
+        else:
+            return "Разность двух клеток < 0"
+
+    def __mul__(self, other):
+        return Cell(self.value * other.value)
+
+    def __truediv__(self, other):
+        if round(self.value / other.value) > 0:
+            return Cell(round(self.value / other.value))
+        elif round(other.value / self.value):           # перемена мест значений, чтобы исключить нулевые значения
+            return Cell(round(other.value / self.value))
+
     def __str__(self):
         return f"Объект с параметрами ({self.value})"
 
+    def make_order(self):
+        pass
 
-c_1 = Cell(10)
-c_2 = Cell(20)
+
+c_1 = Cell(15)
+c_2 = Cell(244)
 
 print(c_1+c_2)
-
+print(c_1-c_2)
+print(c_1*c_2)
+print(c_1/c_2)
