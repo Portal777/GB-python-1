@@ -26,7 +26,15 @@
 class Cell:
 
     def __init__(self, value):
-        self.value = value
+        if type(value) != str:
+            if value >= 0 and type(value) != float:
+                self.value = value
+            else:
+                print('Можно вводить только положительные целые числа')
+                exit()
+        else:
+            print('Можно вводить только числа')
+            exit()
 
     def __add__(self, other):
         return Cell(self.value + other.value)
@@ -43,22 +51,45 @@ class Cell:
         return Cell(self.value * other.value)
 
     def __truediv__(self, other):
-        if round(self.value / other.value) > 0:
-            return Cell(round(self.value / other.value))
-        elif round(other.value / self.value):           # перемена мест значений, чтобы исключить нулевые значения
-            return Cell(round(other.value / self.value))
+
+        try:
+            if round(self.value / other.value) > 0:
+                return Cell(round(self.value / other.value))
+            elif round(other.value / self.value):           # перемена мест значений, чтобы исключить нулевые значения
+                return Cell(round(other.value / self.value))
+        except ZeroDivisionError:
+            return '\nДелить на ноль нельзя!'
 
     def __str__(self):
         return f"Объект с параметрами ({self.value})"
 
-    def make_order(self):
-        pass
+    def make_order(self, count):
+        cells = "*"*self.value
+
+        if self.value <= count:
+            print(self.value*"*")
+        else:
+            my_list = [i for i in cells]
+
+            while True:
+                if len(my_list) > count:
+                    print(count*"*")
+                    del my_list[:count]
+                    continue
+                else:
+                    print(len(my_list)*"*")
+                    break
 
 
-c_1 = Cell(15)
-c_2 = Cell(244)
+c_1 = Cell(4)
+c_2 = Cell(20)
 
 print(c_1+c_2)
 print(c_1-c_2)
 print(c_1*c_2)
 print(c_1/c_2)
+
+print()
+c_1.make_order(5)
+print()
+c_2.make_order(6)
