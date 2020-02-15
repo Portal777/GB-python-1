@@ -24,19 +24,37 @@ while True:
 
     if element != "stop":
         try:
-            element.isdigit()
-            if int(element) < 0:
+            if element.isalpha():  # Проверяем, введены ли только буквы
+                raise ListChecker("\nНельзя вводить буквы!\n")
+
+            elif len(element.replace(' ', '')) == 0:  # удаление пробелов и проверка длины строки
+                raise ListChecker("\nНельзя вводить пустые строки!\n")
+
+            elif '.' in element:  # ищем "." - точку в вводе
+                if element.replace('.', '', 1).isdigit():  # удаляем "." - точку и проверяем ввод на числовое занчение
+                    raise ListChecker("\nНельзя вводить дробные числа!\n")
+                else:
+                    raise ListChecker("\nНеверный формат ввода!\n")
+
+            elif element.isalnum():  # если ввод состоит из чисел и букв
+                if element.isdigit():  # если только числа
+                    my_list.append(int(element))
+                    print(f'\nДобавлено\n')
+
+                else:
+                    raise ListChecker("\nНельзя вводить буквы с цифрами!\n")
+
+            # находим в вводе "-" - минус, удаляем и проверяем ввод на число
+            elif element.replace('-', '', 1).isdigit():
                 raise ListChecker("\nМожно вводить только положительные числа!\n")
-        except ValueError:
-            print("\nВы ввели не не число\n")
+
+            else:
+                raise ListChecker("\nНеверный формат ввода!\n")
+
         except ListChecker as err:
             print(err)
-        else:
-            my_list.append(element)
-            print(f'Текущий вид списка: {my_list}')
 
     else:
-        print(f'\nТекущий вид списка: {my_list}')
+        print(f'\nИтоговый вид списка: {my_list}')
         print('\nПрограмма завершена')
         break
-
